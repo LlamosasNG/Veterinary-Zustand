@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import Error from "./Error";
 import type { DraftPatient } from "../types";
+import { usePatientStore } from "../store";
 
 export default function PatientForm() {
+  const addPatient = usePatientStore((state) => state.addPatient);
   const {
     register,
     handleSubmit,
@@ -10,7 +12,7 @@ export default function PatientForm() {
   } = useForm<DraftPatient>();
 
   const registerPatient = (data: DraftPatient) => {
-    console.log(data);
+    addPatient(data);
   };
 
   return (
@@ -56,9 +58,7 @@ export default function PatientForm() {
               required: "El nombre del propietario es obligatorio",
             })}
           />
-          {errors.caretaker && (
-            <Error>{errors.caretaker?.message}</Error>
-          )}
+          {errors.caretaker && <Error>{errors.caretaker?.message}</Error>}
         </div>
 
         <div className="mb-5">
@@ -108,9 +108,7 @@ export default function PatientForm() {
               required: "Los síntomas son obligatorios",
             })}
           />
-          {errors.symptoms && (
-            <Error>{errors.symptoms?.message}</Error>
-          )}
+          {errors.symptoms && <Error>{errors.symptoms?.message}</Error>}
         </div>
 
         <input
